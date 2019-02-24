@@ -57,7 +57,7 @@ def danceMaker(filename, time, bpm):
 
     bucket_name = "rechack-dance"
 
-    s3 = boto3.client('s3', 'ap-northeast-1', aws_access_key_id="AKIAJPHLEFPV2NL236UQ", aws_secret_access_key="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")
+    s3 = boto3.client('s3', 'ap-northeast-1', aws_access_key_id="", aws_secret_access_key="")
 
     s3.upload_file('/tmp/output.mp4', bucket_name, 'output.mp4', ExtraArgs={"ContentType": "mp4", 'ACL':'public-read'})
 
