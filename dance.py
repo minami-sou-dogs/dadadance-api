@@ -68,6 +68,7 @@ def danceMaker(filename, time, bpm):
 
 @app.route('/api/test', methods=['POST'])
 def api_test():
+    print("api")
     deta = request.get_json()
     level = deta["level"]
     genre = deta["genre"]
