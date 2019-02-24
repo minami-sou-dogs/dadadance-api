@@ -3,7 +3,6 @@ import os
 import json
 import subprocess
 import random
-from __future__ import print_function
 import librosa
 import boto3
 
@@ -22,6 +21,7 @@ def danceCreaterMain():
 
     danceMaker(filename, time, bpm)
 
+    return "https://s3.amazonaws.com/rechack-dance/output.mp4"
 
 def bpmTimeGetter(filename):
     # bpm、およびTime(音楽の時間)を計測、返り値は[bpm,time]
@@ -51,7 +51,7 @@ def danceMaker(filename, time, bpm):
     res1 = subprocess.call(cmd, shell=True)
     print(res1)
 
-    cmd2 = 'ffmpeg -y -i convideo.mp4 -i ' + filename + ' -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 output.mp4'
+    cmd2 = 'ffmpeg -y -i convideo.mp4 -i ' + filename + ' -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 /tmp/output.mp4'
 
     res2 = subprocess.call(cmd2, shell=True)
 
@@ -59,9 +59,9 @@ def danceMaker(filename, time, bpm):
 
     s3 = boto3.client('s3', 'ap-northeast-1', aws_access_key_id="AKIAIBHTI4WMLTUBIVNA", aws_secret_access_key="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")
 
-    s3.upload_file('tmp/output.mp4', bucket_name, 'output.mp4', ExtraArgs={"ContentType": "mp4", 'ACL':'public-read'})
+    s3.upload_file('/tmp/output.mp4', bucket_name, 'output.mp4', ExtraArgs={"ContentType": "mp4", 'ACL':'public-read'})
 
-    return "https://s3.amazonaws.com/rechack-dance/output.mp4"
+
 
 
 
@@ -74,7 +74,7 @@ def api_test():
     name = deta["name"]
     #res = {"url": music(level, genre, bpm=100)}
     #return jsonify(res)
-    url = dancemaker()
+    url = danceCreaterMain()
 
 
     data = {"url":url}
