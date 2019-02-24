@@ -1,0 +1,4 @@
+Flask==1.0.2
+Flask-S3==0.3.3
+requests==2.20.0
+librosa==0.6.3
